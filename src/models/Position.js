@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
 
-const Position = sequelize.define('Position', {
+const Position = sequelize.define('Position', { 
   position_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -24,10 +24,19 @@ const Position = sequelize.define('Position', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
     field: 'ot_rate'
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    field: 'created_at'
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    field: 'updated_at'
   }
 }, {
   tableName: 'position',
   timestamps: true
 });
+
 
 module.exports = Position;

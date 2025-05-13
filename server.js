@@ -1,4 +1,3 @@
-
 require('dotenv').config(); 
 const express = require('express');
 const fileUpload = require('express-fileupload');
@@ -7,8 +6,8 @@ const path = require('path');
 const { sequelize } = require('./src/db/connection');
 const authRoutes = require('./src/routes/auth.routes');
 
-const authenticate = async (req, res, next) => {
 
+const authenticate = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
@@ -21,11 +20,10 @@ const authenticate = async (req, res, next) => {
   next();
 };
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cors());
 
 app.use((req, res, next) => {

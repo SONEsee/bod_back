@@ -8,7 +8,7 @@ const dbConfig = {
   database: 'BOD',
   user: 'postgres',
   port: '5432',
-  password: 'sone'
+  password: 'noo120998'
 };
 
 // ສ້າງອິນສະຕັນຂອງ Sequelize
