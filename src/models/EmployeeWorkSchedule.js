@@ -25,4 +25,4 @@ const EmployeeWorkSchedule = sequelize.define('EmployeeWorkSchedule', {
   timestamps: true
 });
 
-module.exports = EmployeeWorkSchedule;
+module.exports = EmployeeWorkSchedule; 

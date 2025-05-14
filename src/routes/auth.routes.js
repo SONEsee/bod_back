@@ -1,6 +1,14 @@
 const express = require('express');
 const authController = require('../controllers/auth.controller');
-const positionController = require('../controllers/position.controller'); // ລວມ position controller
+const positionController = require('../controllers/position.controller'); 
+const { getAllPositions } = require('../controllers/position.controller');
+const {  createSchedule,  
+         getAllSchedules,  
+         getScheduleById,  
+         updateSchedule,  
+         deleteSchedule} = require('../controllers/employeeSchedule.controller');
+
+
 const router = express.Router();
 
 router.post('/login', authController.login);
@@ -13,9 +21,15 @@ router.put("/users/", authController.searchUsers);
 router.get("/users/", authController.getAllUsers);
 
 router.post('/positions', positionController.createPosition); // Create
-router.get('/positions', positionController.getAllPositions); // Read all
+router.get('/positions', getAllPositions); 
 router.get('/positions/:id', positionController.getPositionById); // Read one
 router.put('/positions/:id', positionController.updatePosition); // Update
 router.delete('/positions/:id', positionController.deletePosition); // Delete
+
+router.post('/schedules', createSchedule);
+router.get('/schedules', getAllSchedules);
+router.get('/schedules/:id', getScheduleById);
+router.put('/schedules/:id', updateSchedule);
+router.delete('/schedules/:id', deleteSchedule);
 
 module.exports = router;

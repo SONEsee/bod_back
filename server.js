@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(fileUpload({
+app.use(fileUpload({ 
   createParentPath: true,
   limits: { 
     fileSize: 5 * 1024 * 1024 

@@ -15,12 +15,25 @@ const createPosition = async (req, res) => {
 // Get all positions
 const getAllPositions = async (req, res) => {
   try {
-    const positions = await Position.findAll();
-    return res.status(200).json(positions);
+    const limit = parseInt(req.res) || 10;
+    const page = parseInt(req.query.page ) || 1;
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Position.findAndCountAll({
+      limit,
+      offset
+    });
+
+    return res.status(200).json({
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      data: rows
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}; 
+};
 
 // Get a position by ID
 const getPositionById = async (req, res) => {
