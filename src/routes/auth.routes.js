@@ -7,6 +7,7 @@ const {  createSchedule,
          getScheduleById,  
          updateSchedule,  
          deleteSchedule} = require('../controllers/employeeSchedule.controller');
+const employeeController = require('../controllers/employee.controller');   
 
 
 const router = express.Router();
@@ -31,5 +32,11 @@ router.get('/schedules', getAllSchedules);
 router.get('/schedules/:id', getScheduleById);
 router.put('/schedules/:id', updateSchedule);
 router.delete('/schedules/:id', deleteSchedule);
+
+router.post('/employees', employeeController.createEmployee);
+router.get('/employees', employeeController.getAllEmployees);
+router.get('/employees/:id', employeeController.getEmployeeById);
+router.put('/employees/:id', employeeController.updateEmployee);
+router.delete('/employees/:id', employeeController.deleteEmployee);
 
 module.exports = router;

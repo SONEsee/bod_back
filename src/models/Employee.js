@@ -1,6 +1,8 @@
 // src/models/Employee.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
+const EmployeeSchedule = require('./EmployeeWorkSchedule');
+const Position = require('./Position');
 
 const Employee = sequelize.define('Employee', {
   employee_id: {
@@ -39,23 +41,21 @@ const Employee = sequelize.define('Employee', {
     type: DataTypes.INTEGER,
     allowNull: false,
     field: 'schedule_id'
-    // ການອ້າງອີງຈະຖືກກຳນົດຫຼັງຈາກນຳເຂົ້າໂມເດວທັງໝົດ
-  },
-  attendance_id: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    field: 'attendance_id'
-    // ການອ້າງອີງຈະຖືກກຳນົດຫຼັງຈາກນຳເຂົ້າໂມເດວທັງໝົດ
   },
   position_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     field: 'position_id'
-    // ການອ້າງອີງຈະຖືກກຳນົດຫຼັງຈາກນຳເຂົ້າໂມເດວທັງໝົດ
   }
 }, {
   tableName: 'employee',
-  timestamps: true
+  timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
+
+// Define associations
+Employee.belongsTo(EmployeeSchedule, { foreignKey: 'schedule_id', as: 'schedule' });
+Employee.belongsTo(Position, { foreignKey: 'position_id', as: 'position' });
 
 module.exports = Employee;
