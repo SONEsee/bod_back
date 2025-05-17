@@ -1,6 +1,7 @@
 // src/models/Attendance.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
+const Employee = require('./Employee');
 
 const Attendance = sequelize.define('Attendance', {
   attendance_id: {
@@ -14,7 +15,6 @@ const Attendance = sequelize.define('Attendance', {
     type: DataTypes.INTEGER,
     allowNull: false,
     field: 'employee_id'
-    // ການອ້າງອີງຈະຖືກກຳນົດຫຼັງຈາກສ້າງໂມເດວ Employee
   },
   check_in_time: {
     type: DataTypes.TIME,
@@ -38,7 +38,10 @@ const Attendance = sequelize.define('Attendance', {
   }
 }, {
   tableName: 'attendance',
-  timestamps: true
+  timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
+Attendance.belongsTo(Employee, { foreignKey: 'employee_id', as: 'employee' });
 module.exports = Attendance;

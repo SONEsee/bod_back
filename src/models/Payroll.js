@@ -1,6 +1,7 @@
 // src/models/Payroll.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
+const Employee = require('./Employee');
 
 const Payroll = sequelize.define('Payroll', {
   payroll_id: {
@@ -51,4 +52,5 @@ const Payroll = sequelize.define('Payroll', {
   timestamps: true
 });
 
+Payroll.belongsTo(Employee, { foreignKey: 'employee_id', as: 'employee' });
 module.exports = Payroll;

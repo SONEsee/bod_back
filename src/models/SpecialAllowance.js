@@ -1,6 +1,7 @@
 // src/models/SpecialAllowance.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
+const Employee = require('./Employee');
 
 const SpecialAllowance = sequelize.define('SpecialAllowance', {
   special_allowance_id: {
@@ -31,4 +32,5 @@ const SpecialAllowance = sequelize.define('SpecialAllowance', {
   timestamps: true
 });
 
+SpecialAllowance.belongsTo(Employee, { foreignKey: 'employee_id', as: 'employee' });
 module.exports = SpecialAllowance;

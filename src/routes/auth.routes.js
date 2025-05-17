@@ -7,8 +7,10 @@ const {  createSchedule,
          getScheduleById,  
          updateSchedule,  
          deleteSchedule} = require('../controllers/employeeSchedule.controller');
-const employeeController = require('../controllers/employee.controller');   
-
+const employeeController = require('../controllers/employee.controller'); 
+const attendanceController = require('../controllers/attendance.controller');  
+const payrollController = require('../controllers/payroll.controller');
+const specialAllowanceController = require('../controllers/specialAllowance.controller');
 
 const router = express.Router();
 
@@ -21,11 +23,11 @@ router.delete("/users/:id", authController.deleteUser);
 router.put("/users/", authController.searchUsers);
 router.get("/users/", authController.getAllUsers);
 
-router.post('/positions', positionController.createPosition); // Create
+router.post('/positions', positionController.createPosition); 
 router.get('/positions', getAllPositions); 
-router.get('/positions/:id', positionController.getPositionById); // Read one
-router.put('/positions/:id', positionController.updatePosition); // Update
-router.delete('/positions/:id', positionController.deletePosition); // Delete
+router.get('/positions/:id', positionController.getPositionById); 
+router.put('/positions/:id', positionController.updatePosition); 
+router.delete('/positions/:id', positionController.deletePosition); 
 
 router.post('/schedules', createSchedule);
 router.get('/schedules', getAllSchedules);
@@ -38,5 +40,23 @@ router.get('/employees', employeeController.getAllEmployees);
 router.get('/employees/:id', employeeController.getEmployeeById);
 router.put('/employees/:id', employeeController.updateEmployee);
 router.delete('/employees/:id', employeeController.deleteEmployee);
+
+router.post('/attendances', attendanceController.createAttendance);
+router.get('/attendances', attendanceController.getAllAttendances);
+router.get('/attendances/:id', attendanceController.getAttendanceById);
+router.put('/attendances/:id', attendanceController.updateAttendance);
+router.delete('/attendances/:id', attendanceController.deleteAttendance);
+
+router.post('/payrolls', payrollController.createPayroll);
+router.get('/payrolls', payrollController.getAllPayrolls);
+router.get('/payrolls/:id', payrollController.getPayrollById);
+router.put('/payrolls/:id', payrollController.updatePayroll);
+router.delete('/payrolls/:id', payrollController.deletePayroll);
+
+router.post('/special-allowances', specialAllowanceController.createSpecialAllowance);
+router.get('/special-allowances', specialAllowanceController.getAllSpecialAllowances);
+router.get('/special-allowances/:id', specialAllowanceController.getSpecialAllowanceById);
+router.put('/special-allowances/:id', specialAllowanceController.updateSpecialAllowance);
+router.delete('/special-allowances/:id', specialAllowanceController.deleteSpecialAllowance);
 
 module.exports = router;
