@@ -33,12 +33,15 @@ const User = sequelize.define('User', {
     allowNull: true,
     field: 'full_name'
   },
-  role: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-    defaultValue: 'user',
-    field: 'role'  // ຕົວຢ່າງ: 'admin', 'manager', 'user'
-  },
+  role_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'role_id',
+    references:{
+      model: 'role',
+      key:'role_id'
+    }
+    },
   profile_image: {
     type: DataTypes.STRING(255),
     allowNull: true,

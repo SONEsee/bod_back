@@ -11,6 +11,10 @@ const employeeController = require('../controllers/employee.controller');
 const attendanceController = require('../controllers/attendance.controller');  
 const payrollController = require('../controllers/payroll.controller');
 const specialAllowanceController = require('../controllers/specialAllowance.controller');
+const roleController = require('../controllers/role.controller');
+const main_menuController = require('../controllers/main.menus.controller');
+const supMenuController = require('../controllers/supmenu.controller');
+
 
 const router = express.Router();
 
@@ -58,5 +62,23 @@ router.get('/special-allowances', specialAllowanceController.getAllSpecialAllowa
 router.get('/special-allowances/:id', specialAllowanceController.getSpecialAllowanceById);
 router.put('/special-allowances/:id', specialAllowanceController.updateSpecialAllowance);
 router.delete('/special-allowances/:id', specialAllowanceController.deleteSpecialAllowance);
+
+router.get('/role', roleController.getAllRoles); // ເພີ່ມ route ສຳລັບ GET /api/auth/role
+router.get('/role/:id', roleController.getRoleById);
+router.post('/role', roleController.createRole);
+router.put('/role/:id', roleController.updateRole);
+router.delete('/role/:id', roleController.deleteRole);
+
+router.post('/main_menu', main_menuController.createMainMenu); 
+router.get('/main_menu', main_menuController.getAllMainMenus); 
+router.get('/main_menu/:id', main_menuController.getMainMenuById); 
+router.put('/main_menu/:id', main_menuController.updateMainMenu); 
+router.delete('/main_menu/:id', main_menuController.deleteMainMenu); 
+
+router.post('/sup_menus', supMenuController.createSupMenu);
+router.get('/sup_menus', supMenuController.getAllSupMenus);
+router.get('/sup_menus/:id', supMenuController.getSupMenuById);
+router.put('/sup_menus/:id', supMenuController.updateSupMenu);
+router.delete('/sup_menus/:id', supMenuController.deleteSupMenu);
 
 module.exports = router;

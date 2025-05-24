@@ -8,15 +8,20 @@ const Employee = require('./Employee');
 const Attendance = require('./Attendance');
 const SpecialAllowance = require('./SpecialAllowance');
 const Payroll = require('./Payroll');
+const MainMenu = require('./main_menu');
+const SupMenu = require('./Supmenu');
 const User = require('./User');
 const UserSession = require('./UserSession');
 const UserPermission = require('./UserPermission');
+
 
 // ກຳນົດຄວາມສຳພັນ
 // 1. ຄວາມສຳພັນຂອງ Position
 Position.hasMany(Employee, { foreignKey: 'position_id' });
 Employee.belongsTo(Position, { foreignKey: 'position_id' });
 
+MainMenu.hasMany(SupMenu, { foreignKey: 'main_id' });
+SupMenu.belongsTo(MainMenu, { foreignKey: 'main_id' });
 
 EmployeeWorkSchedule.hasMany(Employee, { foreignKey: 'schedule_id' });
 Employee.belongsTo(EmployeeWorkSchedule, { foreignKey: 'schedule_id' });
@@ -50,5 +55,7 @@ module.exports = {
   Payroll,
   User,
   UserSession,
-  UserPermission
+  UserPermission,
+  MainMenu,
+  SupMenu
 };

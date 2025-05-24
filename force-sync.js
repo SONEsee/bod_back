@@ -1,6 +1,8 @@
 // force-sync.js
 const { Pool } = require('pg');
 const { Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
+
 
 // ຂໍ້ມູນການເຊື່ອມຕໍ່ຖານຂໍ້ມູນ
 const dbConfig = {
@@ -243,6 +245,32 @@ const Payroll = sequelize.define('Payroll', {
   timestamps: true
 });
 
+// ສ້າງໂມເດວ Role
+const Role = sequelize.define('Role', {
+  role_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+    field: 'role_id'
+  },
+  name: {
+    type: Sequelize.STRING(50),
+    allowNull: false,
+    unique: true,
+    field: 'name'
+  },
+  description: {
+    type: Sequelize.STRING(255),
+    allowNull: true,
+    field: 'description'
+  }
+}, {
+  tableName: 'role',
+  timestamps: false
+});
+
+
 // ====== ເພີ່ມໂມເດວໃໝ່ ======
 
 // ສ້າງໂມເດວ User
@@ -276,12 +304,12 @@ const User = sequelize.define('User', {
     allowNull: true,
     field: 'full_name'
   },
-  role: {
-    type: Sequelize.STRING(20),
-    allowNull: false,
-    defaultValue: 'user',
-    field: 'role'  // ຕົວຢ່າງ: 'admin', 'manager', 'user'
-  },
+  role_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    field: 'role_id'
+    },
+
   employee_id: {
     type: Sequelize.INTEGER,
     allowNull: true,
@@ -297,7 +325,13 @@ const User = sequelize.define('User', {
     allowNull: false,
     defaultValue: true,
     field: 'status'  // true = active, false = inactive
-  }
+  },
+  profile_image: {
+    type: DataTypes.STRING, 
+    allowNull: true,
+    field: 'profile_image'
+  },
+
 }, {
   tableName: 'users',
   timestamps: true,
@@ -424,6 +458,10 @@ UserSession.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(UserPermission, { foreignKey: 'user_id' });
 UserPermission.belongsTo(User, { foreignKey: 'user_id' });
 
+// Role - User
+Role.hasMany(User, { foreignKey: 'role_id' });
+User.belongsTo(Role, { foreignKey: 'role_id' });
+
 async function forceSync() {
   try {
     console.log('ກຳລັງພະຍາຍາມເຊື່ອມຕໍ່ກັບຖານຂໍ້ມູນ...');
@@ -446,16 +484,22 @@ async function forceSync() {
     console.log('- users');
     console.log('- user_sessions');
     console.log('- user_permissions');
-    
+
+    await Role.bulkCreate([
+      { name: 'super admin', description: 'Super Admin' },
+      { name: 'admin', desdcription: 'Admin role' },
+      { name: 'user', description: 'Regular users member' }
+    ]);
     // ສ້າງຜູ້ໃຊ້ admin ເລີ່ມຕົ້ນ
     await User.create({
       username: 'admin',
-      password: 'admin123', // ໃນການນຳໃຊ້ຈິງຄວນເຂົ້າລະຫັດດ້ວຍ bcrypt
+      password: 'admin123',
       email: 'admin@example.com',
       full_name: 'System Administrator',
-      role: 'admin',
+      role_id: 1, // admin
       status: true
     });
+
     
     console.log('ສ້າງຜູ້ໃຊ້ admin ເລີ່ມຕົ້ນສຳເລັດແລ້ວ');
     console.log('- username: admin');

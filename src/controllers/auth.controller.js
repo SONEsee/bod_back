@@ -120,7 +120,7 @@ exports.register = async (req, res) => {
 
     console.log("Registration request body:", req.body);
 
-    const { username, password, email, full_name, role, employee_id } =
+    const { username, password, email, full_name, role_id, employee_id } =
       req.body;
 
     if (!username || !password) {
@@ -171,10 +171,10 @@ exports.register = async (req, res) => {
     const [result] = await sequelize.query(
       `
       INSERT INTO users (
-        username, password, email, full_name, role, status, profile_image, created_at, updated_at, employee_id
+        username, password, email, full_name, role_id, status, profile_image, created_at, updated_at, employee_id
       ) VALUES (
         $1, $2, $3, $4, $5, TRUE, $6, NOW(), NOW(), $7
-      ) RETURNING user_id, username, email, role, profile_image, employee_id
+      ) RETURNING user_id, username, email, role_id, profile_image, employee_id
     `,
       {
         bind: [
@@ -182,7 +182,7 @@ exports.register = async (req, res) => {
           hashedPassword,
           email || "",
           full_name || "",
-          role || "user",
+          role_id || null,
           profileImage || "",
           employee_id || null, // ເພີ່ມຄ່າ employee_id ທີ່ດຶງມາຈາກ req.body ໃນຂ້າງເທິງ
         ],
@@ -195,7 +195,7 @@ exports.register = async (req, res) => {
 
     // ດຶງຂໍ້ມູນຜູ້ໃຊ້ໃໝ່
     const [newUser] = await sequelize.query(
-      `SELECT user_id, username, email, role, profile_image, employee_id FROM users WHERE user_id = $1`,
+      `SELECT user_id, username, email, role_id, profile_image, employee_id FROM users WHERE user_id = $1`,
       {
         bind: [newUserId],
         type: sequelize.QueryTypes.SELECT,
@@ -235,7 +235,7 @@ exports.getUserById = async (req, res) => {
     }
 
     const [user] = await sequelize.query(
-      `SELECT user_id, username, email, full_name, role, employee_id, profile_image, status, created_at, updated_at, last_login 
+      `SELECT user_id, username, email, full_name, role_, employee_id, profile_image, status, created_at, updated_at, last_login 
        FROM users WHERE user_id = $1`,
       {
         bind: [userId],
@@ -457,7 +457,7 @@ exports.getAllUsers = async (req, res) => {
         username, 
         email, 
         full_name, 
-        role, 
+        role_id, 
         employee_id, 
         profile_image, 
         status, 
@@ -484,7 +484,7 @@ exports.getAllUsers = async (req, res) => {
           username: user.username,
           email: user.email,
           full_name: user.full_name,
-          role: user.role,
+          role_id: user.role_id,
           employee_id: user.employee_id,
           profile_image: user.profile_image,
           status: user.status,
@@ -577,7 +577,7 @@ exports.searchUsers = async (req, res) => {
         username, 
         email, 
         full_name, 
-        role, 
+        role_id, 
         employee_id, 
         profile_image, 
         status, 
@@ -605,7 +605,7 @@ exports.searchUsers = async (req, res) => {
           username: user.username,
           email: user.email,
           full_name: user.full_name,
-          role: user.role,
+          role_id: user.role_id,
           employee_id: user.employee_id,
           profile_image: user.profile_image,
           status: user.status,
